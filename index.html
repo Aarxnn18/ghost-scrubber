@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ghost Scrubber // Data Cleaner</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+
+    <header>
+      <div class="logo">
+        <span class="logo-bracket">[</span>
+        <span class="logo-ghost">👻</span>
+        <span class="logo-title">GHOST<span class="logo-accent">SCRUBBER</span></span>
+        <span class="logo-bracket">]</span>
+      </div>
+      <div class="tagline">High-Performance Browser-Side Data Cleaner &mdash; No Server. No API. No Trace.</div>
+      <div class="version">v1.0.0 &bull; GitHub Pages Edition &bull; UK-Ready</div>
+    </header>
+
+    <div class="toolbar">
+      <div class="toolbar-group">
+        <span class="toolbar-label">MODES:</span>
+        <button class="toggle-btn active" id="btn-dedup" title="Remove duplicate lines">DEDUP</button>
+        <button class="toggle-btn active" id="btn-whitespace" title="Normalise whitespace">WHITESPACE</button>
+        <button class="toggle-btn active" id="btn-broken" title="Strip broken/non-printable characters">BROKEN CHARS</button>
+        <button class="toggle-btn" id="btn-uk" title="UK Tax Mode: format GBP, dates, VAT, NI, UTR, phone numbers">
+          <span class="uk-flag">🇬🇧</span> UK TAX MODE
+        </button>
+      </div>
+      <div class="toolbar-group">
+        <button class="toggle-btn" id="btn-trim-lines" title="Trim leading/trailing whitespace per line">TRIM LINES</button>
+        <button class="toggle-btn" id="btn-blank-lines" title="Remove blank lines">REMOVE BLANKS</button>
+        <button class="toggle-btn" id="btn-lowercase" title="Normalise to lowercase">LOWERCASE</button>
+        <button class="toggle-btn" id="btn-sort" title="Sort lines alphabetically">SORT A→Z</button>
+      </div>
+    </div>
+
+    <div class="uk-panel" id="uk-panel" style="display:none;">
+      <div class="uk-panel-title">🇬🇧 UK TAX MODE OPTIONS</div>
+      <div class="uk-options">
+        <label class="uk-opt">
+          <input type="checkbox" id="uk-currency" checked />
+          <span>Format GBP currency (£1,234.56)</span>
+        </label>
+        <label class="uk-opt">
+          <input type="checkbox" id="uk-dates" checked />
+          <span>Normalise dates → DD/MM/YYYY</span>
+        </label>
+        <label class="uk-opt">
+          <input type="checkbox" id="uk-vat" checked />
+          <span>Detect &amp; tag VAT numbers</span>
+        </label>
+        <label class="uk-opt">
+          <input type="checkbox" id="uk-ni" checked />
+          <span>Detect &amp; tag NI numbers</span>
+        </label>
+        <label class="uk-opt">
+          <input type="checkbox" id="uk-utr" checked />
+          <span>Detect &amp; tag UTR numbers</span>
+        </label>
+        <label class="uk-opt">
+          <input type="checkbox" id="uk-phone" checked />
+          <span>Format UK phone numbers</span>
+        </label>
+        <label class="uk-opt">
+          <input type="checkbox" id="uk-postcode" checked />
+          <span>Normalise UK postcodes</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="io-grid">
+      <div class="io-panel">
+        <div class="panel-header">
+          <span class="panel-label">INPUT <span class="panel-sub">// paste or type dirty data</span></span>
+          <div class="panel-actions">
+            <button class="action-btn" id="btn-load-file" title="Load from file">📂 LOAD FILE</button>
+            <button class="action-btn" id="btn-clear-input" title="Clear input">✕ CLEAR</button>
+            <input type="file" id="file-input" accept=".txt,.csv,.tsv,.log" style="display:none;" />
+          </div>
+        </div>
+        <textarea id="input-area" placeholder="Paste your dirty data here...&#10;&#10;Supports: plain text, CSV, TSV, log files, financial data&#10;&#10;Ghost Scrubber will clean it in milliseconds." spellcheck="false"></textarea>
+        <div class="panel-footer">
+          <span id="input-stats">0 lines &bull; 0 chars</span>
+        </div>
+      </div>
+
+      <div class="io-divider">
+        <button class="scrub-btn" id="btn-scrub" title="Run Ghost Scrubber">
+          <span class="scrub-arrow">⟹</span>
+          <span class="scrub-text">SCRUB</span>
+        </button>
+        <button class="auto-btn" id="btn-auto" title="Toggle live auto-scrub">AUTO</button>
+      </div>
+
+      <div class="io-panel">
+        <div class="panel-header">
+          <span class="panel-label">OUTPUT <span class="panel-sub">// clean data</span></span>
+          <div class="panel-actions">
+            <button class="action-btn" id="btn-copy" title="Copy to clipboard">📋 COPY</button>
+            <button class="action-btn" id="btn-download" title="Download as .txt">💾 DOWNLOAD</button>
+          </div>
+        </div>
+        <textarea id="output-area" readonly placeholder="Scrubbed output will appear here..." spellcheck="false"></textarea>
+        <div class="panel-footer">
+          <span id="output-stats">0 lines &bull; 0 chars</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="report-bar" id="report-bar" style="display:none;">
+      <div class="report-title">// SCRUB REPORT</div>
+      <div class="report-grid" id="report-grid"></div>
+      <div class="report-log" id="report-log"></div>
+    </div>
+
+    <div class="log-panel">
+      <div class="log-title">// CONSOLE</div>
+      <div class="log-output" id="console-log">
+        <div class="log-line">Ghost Scrubber initialised. Ready for input.</div>
+        <div class="log-line dim">No server. No API keys. Everything runs in your browser.</div>
+      </div>
+    </div>
+
+    <footer>
+      <span>Ghost Scrubber &copy; 2025 &bull; Standalone GitHub Pages Edition &bull; MIT Licence</span>
+    </footer>
+
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
